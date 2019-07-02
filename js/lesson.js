@@ -1,14 +1,14 @@
 'use strict';
- let money = prompt('Ваш месячный доход?'),
+ let money = +prompt('Ваш месячный доход?'),
      addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую?');
  console.log(addExpenses.split(','));
- let deposit = !!(prompt('Есть ли у вас депозит в банке?')),
+ let deposit = confirm('Есть ли у вас депозит в банке?'),
      income = "фриланс"; 
- console.log(money, income, deposit );
+ console.log(typeof money, typeof income, typeof deposit );
  let expenses = prompt("Какие обязательные ежемесячные расходы у вас есть?"),
-     costs = prompt("Во сколько это обойдется?"), 
+     costs = +prompt("Во сколько это обойдется?"), 
      expenses2 = prompt("Какие обязательные ежемесячные расходы у вас есть?"),
-     costs2 = prompt("Во сколько это обойдется?"), 
+     costs2 = +prompt("Во сколько это обойдется?"), 
      budgetMonth = money - costs - costs2;
 
  console.log(budgetMonth);
