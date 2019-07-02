@@ -1,20 +1,21 @@
-let num = 266219;
-// переводим число в строку
-let transform = String(num);
-// разделяем на простые числа
-let numArray = transform.split('');
-// перемножаем числа
-//console.log(numArray[0]*numArray[1]*numArray[2]*numArray[3]*numArray[4]*numArray[5]);
-let multip = numArray.reduce((multip,elem) => multip * elem);
-console.log(multip);
-//возводим в степень
-//let result = numArray[0]*numArray[1]*numArray[2]*numArray[3]*numArray[4]*numArray[5];
+'use strict';
+let line = " lkjlhkgjhfhjfh jhgjgujfyfhfh ggggggggg jjjjjjjjj lllllll     ";
+function getString (line){
+    if (typeof line === 'string'){
+        return line.trim();
+    } else {
+        return "Вы должны ввести строку";
+    }
+}
+let lineTrim = getString(line);
 
-multip **= 3; 
+function lineCut(lineTrim){
+    if (Number(lineTrim.length) > 30){
+        return lineTrim.substring(0, 29) + '.' + '.' + '.';
+     } else {
+         return lineTrim;
+     }
+}
+console.log(lineCut(lineTrim));
 
-console.log(multip);
-
-let str = String(multip);
-
-console.log(str.substr(0,2));
 
