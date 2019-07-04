@@ -65,7 +65,7 @@ console.log(accumulatedMonth);
 function getTargetMonth(){
     let month = Math.floor( mission / accumulatedMonth);
     if (month>=0){
-        return 'Цель будет достигнута за ' + getTargetMonth() + ' месяцев';
+        return 'Цель будет достигнута за ' + month + ' месяцев';
     }else{
         return 'Цель не будет достигнута';
     }
