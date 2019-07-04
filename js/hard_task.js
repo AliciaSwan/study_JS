@@ -19,9 +19,10 @@ for (let i = 0; i < 7; i++ ){
 for (let i = 2; i <= 100; i++){
     let count = 0;
     for (let n = 2; n < i; n++){
-        if ( i%n != 0)         
-            continue;
-            count += 1;
+        if ( i%n != 0) {
+           continue; 
+        }       
+        count += 1;   
     }
     if(!count){console.log(i + ' делители 1 '+ i );}
 }
