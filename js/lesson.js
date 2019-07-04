@@ -29,26 +29,20 @@ let expenses,
     mission = 500000;
 
 let expensesMonth = function(){
-    let sum = 0;
+    let sum = 0,
+        question;
     
     for (let i = 0; i < 2; i++){
         if(i === 0){
             expenses = prompt("Какие обязательные ежемесячные расходы у вас есть?", "Ипотека");
-            do{
-                sum += +prompt("Во сколько это обойдется?");
-                console.log(sum, typeof sum);
-                } while(isNaN(sum) || sum == '' || sum == null){
-                   // sum += prompt("Во сколько это обойдется?");    
-                }
-        }else if (i === 1) {
+        }else {
             expenses2 = prompt("Какие обязательные ежемесячные расходы у вас есть?", "бензин");
-            do{
-                sum += +prompt("Во сколько это обойдется?");
-                console.log(sum, typeof sum);
-                } while(isNaN(sum) || sum == '' || sum == null){
-                  //  sum += prompt("Во сколько это обойдется?");    
-                }
         }
+            do{
+                question = prompt("Во сколько это обойдется?");
+            } while (isNaN(question) || question == '' || question == null){
+                sum += Number(question);
+            }
     }
     return sum;
 };
