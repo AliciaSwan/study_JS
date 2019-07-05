@@ -39,23 +39,25 @@ let appData = {
 
     budget: +money,
     
-
     getExpensesMonth:  function(){
         let sum = 0;
         for (let key in appData.expenses){
             sum += +appData.expenses[key];
         }
         appData.expensesMonth = +sum;
+        console.log('appData.expensesMonth:', appData.expensesMonth, typeof(appData.expensesMonth));
     },
     getBudget: function(){
         appData.budgetMonth = appData.budget - appData.expensesMonth;
         appData.budgetDay = appData.budgetMonth/30;
         console.log('appData.budgetDay:', appData.budgetDay);
+        console.log('appData.budget:', appData.budget, typeof(appData.budget));
+        console.log('appData.budgetMonth:', appData.budgetMonth, typeof(appData.budgetMonth));
     },
 
 
     getTargetMonth: function(){
-        let month = Math.floor( appData.mission / appData.getBudget);
+        let month = Math.floor( appData.mission / appData.budgetMonth);
         if (month>=0){
             return 'Цель будет достигнута за ' + month + ' месяцев';
         }else{
@@ -77,9 +79,10 @@ let appData = {
 };
 
 appData.asking();
-
-
-
+appData.getBudget();
+appData.getExpensesMonth();
+appData.getTargetMonth();
+appData.getStatusIncome();
 console.log(appData.getExpensesMonth());
 
 console.log(appData.getTargetMonth());
