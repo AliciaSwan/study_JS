@@ -37,19 +37,24 @@ let appData = {
             }while(!isNaN(itemIncome) || itemIncome == '' || itemIncome == null  || isNaN(cashIncome) || cashIncome == '' || cashIncome == null);
                     appData.income[itemIncome] = cashIncome;
         }
-
-        let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую?', 'credit,school,babysitter');
+        for (let i = 0; i < 2; i++){
+        let addExpenses;
+        do{
+            addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую?', 'credit,school,babysitter');
+        }while (addExpenses === '' || addExpenses === null || !isNaN(addExpenses));
             appData.addExpenses = addExpenses.toLowerCase().split(',');
+    }   
             appData.deposit = confirm('Есть ли у вас депозит в банке?');
 
         for (let i = 0; i < 2; i++){
-            let question =  prompt("Какие обязательные ежемесячные расходы у вас есть?" ),
-                let response;
+            let question,
+                response;
                 do{
+                    question =  prompt("Какие обязательные ежемесячные расходы у вас есть?" );
                     response =  +prompt("Во сколько это обойдется?");
-                }while(isNaN(response) || response === '' || response === null);
+                }while(isNaN(response) || response === '' || response === null || question == ''|| question == null || typeof(question) !== 'string');
                 appData.expenses[question] = response;
-                // if( typeof(question) === 'string' || response != '' || response != null || !isNaN(response) || question != ''|| question != null){
+                // if(  || response != '' || response != null || !isNaN(response) || question != ''|| question != null){
                 //     appData.expenses[question] = response;
                 // } else {
                 // i--;   
