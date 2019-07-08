@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 let money,
     start = function(){
         do {
-            money = +prompt('Ваш месячный доход?');
+            money = +prompt('Ваш месячный доход?', '30000');
         }
         while(isNaN(money) || money == '' || money == null){
             //money = prompt('Ваш месячный доход?');
@@ -13,49 +13,64 @@ let money,
 start();
 
 let appData = {
+    budget: money,
     income:{},
     addIncome:[],
     budgetMonth: 0,
     budgetDay: 0,
+    expensesMonth: 0,
+    percentDeposit: 0,
+    moneyDeposit: 0,
     expenses: {},
     addExpenses: [],
     deposit: false,
     mission: 50000,
     period: 3,
     asking: function(){
-        let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую?');
+
+        if(confirm('Есть ли у Вас дополнительный источник заработка?')){
+            let itemIncome,
+                cashIncome;
+            do{
+                itemIncome = prompt('Какой у вас есть дополнительный заработок?', 'freelance');
+                cashIncome = prompt('Сколько в месяц вы на этом зарабатываете?', '5000');
+            }while(!isNaN(itemIncome) || itemIncome == '' || itemIncome == null  || isNaN(cashIncome) || cashIncome == '' || cashIncome == null);
+                    appData.income[itemIncome] = cashIncome;
+        }
+
+        let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую?', 'credit,school,babysitter');
             appData.addExpenses = addExpenses.toLowerCase().split(',');
             appData.deposit = confirm('Есть ли у вас депозит в банке?');
 
         for (let i = 0; i < 2; i++){
-            let question =  prompt("Какие обязательные ежемесячные расходы у вас есть?", ""),
-                response =  +prompt("Во сколько это обойдется?");
-   
-                if( !isNaN(response) || response != '' || response != null){
-                    appData.expenses[question] = +response;
-                } else {
-                i--;   
-                }     
+            let question =  prompt("Какие обязательные ежемесячные расходы у вас есть?" ),
+                let response;
+                do{
+                    response =  +prompt("Во сколько это обойдется?");
+                }while(isNaN(response) || response === '' || response === null);
+                appData.expenses[question] = response;
+                // if( typeof(question) === 'string' || response != '' || response != null || !isNaN(response) || question != ''|| question != null){
+                //     appData.expenses[question] = response;
+                // } else {
+                // i--;   
+                // }     
         }
     },
-
-    budget: money,
-    
+  
     getExpensesMonth:  function(){
-        let sum = 0;
         for (let key in appData.expenses){
-            sum += +appData.expenses[key];
+            appData.expensesMonth += +appData.expenses[key];
         }
      // appData.expensesMonth = +sum;
-       return sum;
-      //  console.log('appData.expensesMonth:', appData.expensesMonth, typeof(appData.expensesMonth));
+     //  return sum;
     },
     getBudget: function(){
-        let budgetDay = Math.floor(appData.budget / 30);
-        let budgetMonth = appData.budget - appData.getExpensesMonth();
+        appData.budgetMonth = appData.budget - appData.expensesMonth;
+        appData.budgetDay = Math.floor(appData.budgetMonth / 30);
         
-        appData.budgetMonth = budgetMonth;
-        appData.budgetDay = budgetDay;
+        
+//        appData.budgetMonth = budgetMonth;
+//        appData.budgetDay = budgetDay;
 
         console.log('appData.budgetDay:', appData.budgetDay);
         console.log('appData.budget:', appData.budget, typeof(appData.budget));
@@ -82,7 +97,21 @@ let appData = {
             return "Что то пошло не так";
         }
     },
-
+    getInfoDeposit: function(){
+        if(appData.deposit){
+            let percentDepositQuestion,
+                moneyDepositResponse;
+            do{
+                percentDepositQuestion = prompt('Какой годовой процент?', 10);
+                moneyDepositResponse = prompt('Какая сумма заложена?', 10000);
+            }while(isNaN(percentDepositQuestion) || percentDepositQuestion === ''|| percentDepositQuestion === null || isNaN(moneyDepositResponse) || moneyDepositResponse ===  '' || moneyDepositResponse === null);
+            appData.percentDeposit = percentDepositQuestion;
+            appData.moneyDeposit = moneyDepositResponse;
+        }
+    },
+    calcSaveMoney: function(){
+        return appData.budgetMonth * appData.period;
+    }
 };
 
 appData.asking();
@@ -90,9 +119,44 @@ appData.getBudget();
 appData.getExpensesMonth();
 appData.getTargetMonth();
 appData.getStatusIncome();
+appData.getInfoDeposit();
+appData.calcSaveMoney();
 console.log('Расходы за месяц : ' + appData.getExpensesMonth());
 console.log(appData.getTargetMonth());
 console.log(appData.getStatusIncome());
+console.log(appData.percentDeposit, appData.calcSaveMoney(), appData.moneyDeposit);
+let incomeData = function(){
+    for(let key in appData.income){
+        return key;
+    }
+}
+
+// let expensesData = function(){
+//     let y ='';
+//     for(let key in appData.addExpenses){
+//         y += appData.addExpenses[key];
+//          return y;
+//     }
+// }
+// expensesData();
+//let expensesData = appData.addExpenses.join(',');
+let makeString = incomeData() +','+ appData.addExpenses.join(',');
+//console.log(makeString);
+let makeArray = makeString.split(',');
+//console.log(makeArray);
+
+function capitalizeFirstLetter(item, i, arr) {
+    arr[i] = item.charAt(0).toUpperCase() + item.slice(1);
+  }
+
+makeArray.forEach(capitalizeFirstLetter);
+console.log(makeArray.join(', '));
+
+
+console.log(appData.addExpenses);
+console.log(appData.income);
+console.log(appData.addExpenses.concat(appData.income));
+//console.log('Возможные доходы :' +  appData.money + incomeData.join('') );
 console.log(appData);
 console.log('Наша программа включает в себя данные:');
 function show(){
@@ -102,4 +166,6 @@ function show(){
 }
 show();
 
+
+//string.split(/\s+/).map(word => word[0].toUpperCase() + word.substring(1)).join(' ')
 
