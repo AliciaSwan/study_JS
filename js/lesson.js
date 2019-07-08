@@ -37,7 +37,7 @@ let appData = {
             }while(!isNaN(itemIncome) || itemIncome == '' || itemIncome == null  || isNaN(cashIncome) || cashIncome == '' || cashIncome == null);
                     appData.income[itemIncome] = cashIncome;
         }
-        for (let i = 0; i < 2; i++){
+        for (let i = 0; i < 1; i++){
         let addExpenses;
         do{
             addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую?', 'credit,school,babysitter');
@@ -136,14 +136,6 @@ let incomeData = function(){
     }
 }
 
-// let expensesData = function(){
-//     let y ='';
-//     for(let key in appData.addExpenses){
-//         y += appData.addExpenses[key];
-//          return y;
-//     }
-// }
-// expensesData();
 //let expensesData = appData.addExpenses.join(',');
 let makeString = incomeData() +','+ appData.addExpenses.join(',');
 //console.log(makeString);
@@ -171,6 +163,4 @@ function show(){
 }
 show();
 
-
-//string.split(/\s+/).map(word => word[0].toUpperCase() + word.substring(1)).join(' ')
 
