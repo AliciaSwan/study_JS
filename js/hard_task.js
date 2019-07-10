@@ -7,36 +7,14 @@ function now() {
         minutes = date.getMinutes(),
         seconds = date.getSeconds();
   
-    let fullDate = hour + ':' + minutes + ':' + seconds +' '+ (day<10 ? '0' : '') + day + "." + (month<10 ? '0' : '') + month + '.'+ date.getFullYear();
+    let fullDate = (hour < 10 ? '0' : '') + hour + ':' + (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds + ' '+ (day < 10 ? '0' : '') + day + "." + (month < 10 ? '0' : '') + month + '.' + date.getFullYear();
     return fullDate;
+    
   }
-  console.log(now());
+setInterval(function(){
+    document.getElementById("clock").innerHTML = now();
+}, 1000);
+  
 
-  function getDateTime() {
-    var now     = new Date(); 
-    var year    = now.getFullYear();
-    var month   = now.getMonth()+1; 
-    var day     = now.getDate();
-    var hour    = now.getHours();
-    var minute  = now.getMinutes();
-    var second  = now.getSeconds(); 
-    if(month.toString().length == 1) {
-         month = '0'+month;
-    }
-    if(day.toString().length == 1) {
-         day = '0'+day;
-    }   
-    if(hour.toString().length == 1) {
-         hour = '0'+hour;
-    }
-    if(minute.toString().length == 1) {
-         minute = '0'+minute;
-    }
-    if(second.toString().length == 1) {
-         second = '0'+second;
-    }   
-    var dateTime = year+'/'+month+'/'+day+' '+hour+':'+minute+':'+second;   
-     return dateTime;
-}
-console.log(getDateTime());
+
 
