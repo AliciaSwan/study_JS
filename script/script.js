@@ -1,5 +1,6 @@
 "use strict";
 let start = document.getElementById('start'),
+    cancel = document.getElementById('cancel'),
     incomeAdd = document.getElementsByTagName('button')[0],
     expensesAdd = document.getElementsByTagName('button')[1],
     depositCheck = document.querySelector('#deposit-check'),
