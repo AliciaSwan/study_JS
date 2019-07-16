@@ -235,7 +235,6 @@ const listeners = new AppData();
 listeners.eventsListeners();
 
 
-//start.addEventListener('click', /*AppData.start.bind(AppData)*/ startApp);
 //-----cookies и  localStorage
 
 // (function(){
