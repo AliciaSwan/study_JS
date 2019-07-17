@@ -37,16 +37,35 @@ window.addEventListener('DOMContentLoaded', function(){
     }
     let animate = false;
     document.querySelector('#play').addEventListener('click',function(){
-        if(animate){
+        if(!animate){
         clockAnimate = requestAnimationFrame(clock);
-        animate = false;
-        }else{
-            document.querySelector('#stop').addEventListener('click',function(){
-               animate = true;
+        animate = true;
+        }// }else{
+    });       
+    document.querySelector('#stop').addEventListener('click',function(){
+        if(animate){
             cancelAnimationFrame(clockAnimate); 
-            });
+            animate = false;
         }
+    });
     
+    
+   
+   document.querySelector("#reset").addEventListener('click',function(){
+       if(animate){
+        cancelAnimationFrame(clockAnimate); 
+        animate = false;
+        sec.style.transform = 'rotate(0deg)'; 
+        min.style.transform = 'rotate(0deg)';
+        hour.style.transform = 'rotate(0deg)';
+        clocks.style.transform = 'rotate(0deg)';
+       }else{
+        sec.style.transform = 'rotate(0deg)'; 
+        min.style.transform = 'rotate(0deg)';
+        hour.style.transform = 'rotate(0deg)';
+        clocks.style.transform = 'rotate(0deg)'; 
+       }
+
    });
 
 });
