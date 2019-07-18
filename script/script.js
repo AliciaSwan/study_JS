@@ -1,5 +1,5 @@
 "use strict";
-let start = document.getElementById('start'),
+const start = document.getElementById('start'),
         cancel = document.getElementById('cancel'),
         incomeAdd = document.getElementsByTagName('button')[0],
         expensesAdd = document.getElementsByTagName('button')[1],
@@ -50,9 +50,10 @@ AppData.prototype.start = function(){
     this.getExpensesMonth();
     this.getInfoDeposit();
     this.getBudget();
-    this.getAddExpenses();
-    this.getAddIncome();       
-    
+    //this.getAddExpenses();
+    //this.getAddIncome();       
+    this.getAddData(this.addExpenses, additionalExpensesItem.value.split(','));
+    this.getAddData(this.addIncome, addIncomeItem);
     this.showResult();
     this.blockedInput();   
 };
@@ -140,17 +141,17 @@ AppData.prototype.getIncome = function(){
         }
     });
 };
-AppData.prototype.geAddtData = function(addData, addItem){
+AppData.prototype.getAddData = function(addData, addItem){
     addItem.forEach((item) =>{
         if(Array.isArray(item)){
             item = item.trim();
             if(item !== ''){
-                    this.addData.push(item);
+                    addData.push(item);
             }
         }else {
             let itemValue = item.value.trim();
             if(itemValue !== ''){
-                this.addData.push(itemValue);
+                addData.push(itemValue);
             }
         }  
     }); 
@@ -203,8 +204,8 @@ AppData.prototype.eventsListeners = function(){
         start.disabled = false;
     });
     start.addEventListener('click', this.start.bind(this));
-    expensesAdd.addEventListener('click', this.addExpensesBlock);
-    incomeAdd.addEventListener('click', this.addIncomeBlock);
+    expensesAdd.addEventListener('click', this.addDataBlock(this.expensesItems, expensesAdd, '.expenses-items'));
+    incomeAdd.addEventListener('click', this.addDataBlock(this.incomeItems, incomeAdd, '.income-items'));
     periodSelect.addEventListener('change', this.getRangeAmount);
     cancel.addEventListener('click', this.reset);
 
@@ -246,10 +247,8 @@ AppData.prototype.eventsListeners = function(){
 
 let appData = new AppData();   
 appData.eventsListeners();
-appData.addDataBlock(this.expensesItems, expensesAdd, '.expenses-items' );
-appData.addDataBlock(this.incomeItems, incomeAdd, '.income-items' );
-appData.getAddData(appData.addExpenses, additionalExpensesItem.value.split(','));
-appData.getAddData(appData.addIncome, addIncomeItem);
+
+
 //-----cookies и  localStorage
 
 // (function(){
