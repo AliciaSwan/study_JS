@@ -1,5 +1,5 @@
 "use strict";
-const start = document.getElementById('start'),
+let start = document.getElementById('start'),
         cancel = document.getElementById('cancel'),
         incomeAdd = document.getElementsByTagName('button')[0],
         expensesAdd = document.getElementsByTagName('button')[1],
@@ -52,8 +52,8 @@ AppData.prototype.start = function(){
     this.getBudget();
     //this.getAddExpenses();
     //this.getAddIncome();       
-    this.getAddData(this.addExpenses, additionalExpensesItem.value.split(','));
-    this.getAddData(this.addIncome, addIncomeItem);
+    this.getAddData(this.addExpenses, true, additionalExpensesItem);
+    this.getAddData(this.addIncome, false, addIncomeItem);
     this.showResult();
     this.blockedInput();   
 };
@@ -141,7 +141,10 @@ AppData.prototype.getIncome = function(){
         }
     });
 };
-AppData.prototype.getAddData = function(addData, addItem){
+AppData.prototype.getAddData = function(addData, verif, addItem){
+    if(verif == true){
+        addItem = addItem.value.split(',');
+    }
     addItem.forEach((item) =>{
         if(Array.isArray(item)){
             item = item.trim();
@@ -149,12 +152,13 @@ AppData.prototype.getAddData = function(addData, addItem){
                     addData.push(item);
             }
         }else {
-            let itemValue = item.value.trim();
-            if(itemValue !== ''){
-                addData.push(itemValue);
+            item = item.value.trim();
+            if(item !== ''){
+                addData.push(item);
             }
         }  
     }); 
+
 };
 // AppData.prototype.getAddExpenses = function(){
 //     let addExpenses = additionalExpensesItem.value.split(',');
@@ -204,8 +208,8 @@ AppData.prototype.eventsListeners = function(){
         start.disabled = false;
     });
     start.addEventListener('click', this.start.bind(this));
-    expensesAdd.addEventListener('click', this.addDataBlock(this.expensesItems, expensesAdd, '.expenses-items'));
-    incomeAdd.addEventListener('click', this.addDataBlock(this.incomeItems, incomeAdd, '.income-items'));
+    expensesAdd.addEventListener('click', this.addDataBlock(expensesItems, expensesAdd, '.expenses-items'));
+    incomeAdd.addEventListener('click', this.addDataBlock(incomeItems, incomeAdd, '.income-items'));
     periodSelect.addEventListener('change', this.getRangeAmount);
     cancel.addEventListener('click', this.reset);
 
