@@ -246,8 +246,8 @@ AppData.prototype.eventsListeners = function(){
 
 let appData = new AppData();   
 appData.eventsListeners();
-appData.addDataBlock(appData.expensesItems, expensesAdd, '.expenses-items' );
-appData.addDataBlock(appData.incomeItems, incomeAdd, '.income-items' );
+appData.addDataBlock(this.expensesItems, expensesAdd, '.expenses-items' );
+appData.addDataBlock(this.incomeItems, incomeAdd, '.income-items' );
 appData.getAddData(appData.addExpenses, additionalExpensesItem.value.split(','));
 appData.getAddData(appData.addIncome, addIncomeItem);
 //-----cookies и  localStorage
