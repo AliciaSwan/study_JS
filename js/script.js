@@ -58,23 +58,23 @@ window.addEventListener('DOMContentLoaded', function(){
     //  menu
 
     const toggleMenu = ()=>{
-        const btnMenu = document.querySelector('.menu'),
-              menu = document.querySelector('menu'),
-              closeBtn = document.querySelector('.close-btn'),
+        const menu = document.querySelector('menu'),
               menuItems = menu.querySelectorAll('ul>li');
         
-        const handlerMenu = ()=>{
-            // if(!menu.style.transform || menu.style.transform === `translate(-100%)`){
-            //     menu.style.transform =`translate(0)`;
-            // }else{
-            //     menu.style.transform = `translate(-100%)`;
-            // }
-            menu.classList.toggle('active-menu');
-        };
-        btnMenu.addEventListener('click', handlerMenu);
-        closeBtn.addEventListener('click', handlerMenu);
+        document.addEventListener('click', (event) =>{
+            let target = event.target;  
+            if(target.classList.contains('close-btn') || target.classList.contains('menu')){
+                menu.classList.toggle('active-menu');
+            }else{
+                menuItems.forEach(()=>{
+                    menu.classList.toggle('active-menu'); 
+                }); 
+            }
+            if(!target){
+                menu.classList.toggle('active-menu');
+            }
+        });
 
-        menuItems.forEach((elem)=> elem.addEventListener('click',handlerMenu));
     };
     toggleMenu();
 
@@ -83,7 +83,6 @@ window.addEventListener('DOMContentLoaded', function(){
     const togglePopUp = ()=>{
         const popup = document.querySelector('.popup'),
         popupBtn = document.querySelectorAll('.popup-btn'),
-        popupClose = document.querySelector('.popup-close'),
         popupContent = document.querySelector('.popup-content');
     
     // const handlerPopup = () => {
@@ -112,16 +111,111 @@ window.addEventListener('DOMContentLoaded', function(){
         }
     }));
 
-           
-    popupClose.addEventListener('click', ()=>{popup.style.display = 'none';});
+    popup.addEventListener('click', (event)=>{
+        let target = event.target;
+
+        if(target.classList.contains('popup-close')){
+            popup.style.display ='none';
+        }else{
+            target = target.closest('.popup-content');
+
+            if(!target){
+                popup.style.display = 'none';
+            }
+        }
+
+    });
     };
+
     togglePopUp();
 
     // scroll
     const scroll = ()=>{
-        //const 
+        // собираем все якоря; устанавливаем время анимации и количество кадров
+        const anchors = [].slice.call(document.querySelectorAll('a[href*="#"]')),
+            animationTime = 300,
+            framesCount = 20;
+
+        anchors.forEach(function(item) {
+        // каждому якорю присваиваем обработчик события
+        item.addEventListener('click', function(e) {
+        
+            e.preventDefault();  // убираем стандартное поведение
+
+            // для каждого якоря берем соответствующий ему элемент и определяем его координату Y
+            let coordY = document.querySelector(item.getAttribute('href')).getBoundingClientRect().top;
+
+            // запускаем интервал, в котором
+            let scroller = setInterval(function() {
+            // считаем на сколько скроллить за 1 такт
+                let scrollBy = coordY / framesCount;
+
+                // если к-во пикселей для скролла за 1 такт больше расстояния до элемента
+                // и дно страницы не достигнуто
+                if(scrollBy > window.pageYOffset - coordY && window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
+                // то скроллим на к-во пикселей, которое соответствует одному такту
+                    window.scrollBy(0, scrollBy);
+                } else {
+                // иначе добираемся до элемента и выходим из интервала
+                    window.scrollTo(0, coordY);
+                    clearInterval(scroller);
+                }
+            // время интервала равняется частному от времени анимации и к-ва кадров
+            }, animationTime / framesCount);
+        });
+        });
+//  const anchors = document.querySelectorAll('a[href* = "#"]');
+        
+//     for (let anchor of anchors) {
+//         console.log(anchor);
+//         anchor.addEventListener('click', (e)=> {
+//             e.preventDefault();
+            
+//             const blockID = anchor.getAttribute('href');
+            
+//             document.querySelector('' + blockID).scrollIntoView({
+//             behavior: 'smooth',
+//             block: 'start'
+//             });
+//         });
+//         }
     };
-    scroll();
+//     scroll();
+
+    // Tabs
+
+    const tabs = () => {
+        const tabHeader = document.querySelector('.service-header'),
+            tab = tabHeader.querySelectorAll('.service-header-tab'),
+            tabContent = document.querySelectorAll('.service-tab');
+
+        const toggleTabContent = (index) => {
+            for( let i = 0; i < tabContent.length; i++){
+                if (index === i) {
+                    tab[i].classList.add('active');
+                    tabContent[i].classList.remove('d-none');
+                }else{
+                    tab[i].classList.remove('active');
+                    tabContent[i].classList.add('d-none');
+                }
+            }
+        };
+
+        tabHeader.addEventListener('click', (event) => {
+            let target = event.target;
+                target = target.closest('.service-header-tab'); // поднимается вверх, возвращает null если не нашел
+                if(target){
+                // console.log(target);
+                    tab.forEach((item, i) => {
+                        if(item === target){
+                            toggleTabContent(i);
+                            // console.log(tabContent[i]);
+                        }
+                    });
+                }
+        });
+    };
+    tabs();
 
 }); 
 
