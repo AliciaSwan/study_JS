@@ -85,7 +85,16 @@ AppData.prototype.reset = function(){
     start.style.display = "block";
     cancel.style.display = "none";
 };
-AppData.prototype.addDataBlock = function(dataItems, dataAdd , inputClass){
+AppData.prototype.addDataBlock = function(dataItems, dataAdd , inputClass)
+{
+    // let aClone = dataItems[0].cloneNode(true);
+    // dataItems[0].parentNode.insertBefore(aClone, dataAdd);
+
+    // dataItems = document.querySelectorAll(inputClass);
+    // if (dataItems.length == 3) {
+    //     dataAdd.style.display = 'none';
+    // }
+
         let cloneDataItem = dataItems[0].cloneNode(true);
         dataItems[0].parentNode.insertBefore(cloneDataItem, dataAdd);
         let allInputs = cloneDataItem.querySelectorAll('input');
@@ -146,7 +155,7 @@ AppData.prototype.getAddData = function(addData, verif, addItem){
         addItem = addItem.value.split(',');
     }
     addItem.forEach((item) =>{
-        if(Array.isArray(item)){
+        if((verif == true)){
             item = item.trim();
             if(item !== ''){
                     addData.push(item);
@@ -158,7 +167,6 @@ AppData.prototype.getAddData = function(addData, verif, addItem){
             }
         }  
     }); 
-
 };
 // AppData.prototype.getAddExpenses = function(){
 //     let addExpenses = additionalExpensesItem.value.split(',');
