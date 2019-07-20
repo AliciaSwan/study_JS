@@ -3,6 +3,7 @@ window.addEventListener('DOMContentLoaded', function(){
     'use strict';
 
     // Timer
+    
 
     let timer = setInterval(function countTimer(deadline){
         let timerHours = document.querySelector('#timer-hours'),
@@ -11,8 +12,17 @@ window.addEventListener('DOMContentLoaded', function(){
             timerClock = document.querySelector('#timer');
 
         function getTimeRemainig(){
-            let dateStop = new Date(deadline).getTime(),
-            dateNow = new Date().getTime(),
+
+            let date = new Date();
+
+            function returnEndDate(){
+                date.setDate(date.getDate()+1); //устанавливаем дату +1
+                date.setHours(0, 0, 0, 0); //устанавливаем время на 00:00:00
+                return date;
+            }
+            let dateStop = returnEndDate(deadline);
+            //let dateStop = new Date(deadline).getTime(),
+            let dateNow = new Date().getTime(),
             timeRemaining = (dateStop - dateNow) /1000,
             seconds = Math.floor(timeRemaining % 60),
             minutes = Math.floor((timeRemaining / 60) % 60),
@@ -52,6 +62,6 @@ window.addEventListener('DOMContentLoaded', function(){
         }
         updateClock();
   
-    }, 1000, '14 july 2019');
+    }, 1000, 'deadline'); //ставится дата окончания '2 july 2019'
 
 }); 
