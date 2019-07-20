@@ -11,7 +11,15 @@ window.addEventListener('DOMContentLoaded', function(){
             timerClock = document.querySelector('#timer');
 
         function getTimeRemainig(){
-            let dateStop = new Date(deadline).getTime(),
+            let date = new Date();
+
+            function returnEndDate(){
+                date.setDate(date.getDate()+1);
+                date.setHours(0, 0, 0, 0);
+                return date;
+            }
+            let dateStop = returnEndDate(deadline),
+            //let dateStop = new Date(deadline).getTime(),
             dateNow = new Date().getTime(),
             timeRemaining = (dateStop - dateNow) /1000,
             seconds = Math.floor(timeRemaining % 60),
@@ -46,7 +54,7 @@ window.addEventListener('DOMContentLoaded', function(){
               setTimeout(updateClock, 1000);
             } else if (timer.timeRemaining <= 0){
                 clearInterval(timer);
-                setTimeout(updateClock, 86400);
+               // setTimeout(updateClock, 86400);
             }
             
 
@@ -59,10 +67,16 @@ window.addEventListener('DOMContentLoaded', function(){
 
     const toggleMenu = ()=>{
         const menu = document.querySelector('menu'),
+              menuBtn = document.querySelector('.menu'),
               menuItems = menu.querySelectorAll('ul>li');
-        
-        document.addEventListener('click', (event) =>{
+
+        menuBtn.addEventListener('click',() =>{
+            menu.classList.toggle('active-menu'); 
+        });
+
+        menu.addEventListener('click', (event) =>{
             let target = event.target;  
+            console.log(target);
             if(target.classList.contains('close-btn') || target.classList.contains('menu')){
                 menu.classList.toggle('active-menu');
             }else{
@@ -130,39 +144,39 @@ window.addEventListener('DOMContentLoaded', function(){
     togglePopUp();
 
     // scroll
-    const scroll = ()=>{
+    const scroll = () => {
         // собираем все якоря; устанавливаем время анимации и количество кадров
         const anchors = [].slice.call(document.querySelectorAll('a[href*="#"]')),
             animationTime = 300,
             framesCount = 20;
-
+            
         anchors.forEach(function(item) {
-        // каждому якорю присваиваем обработчик события
-        item.addEventListener('click', function(e) {
-        
-            e.preventDefault();  // убираем стандартное поведение
+            // каждому якорю присваиваем обработчик события
+            item.addEventListener('click', function(e) {
+            
+                e.preventDefault();  // убираем стандартное поведение
 
-            // для каждого якоря берем соответствующий ему элемент и определяем его координату Y
-            let coordY = document.querySelector(item.getAttribute('href')).getBoundingClientRect().top;
+                // для каждого якоря берем соответствующий ему элемент и определяем его координату Y
+                let coordY = document.querySelector(item.getAttribute('href')).getBoundingClientRect().top;
 
-            // запускаем интервал, в котором
-            let scroller = setInterval(function() {
-            // считаем на сколько скроллить за 1 такт
-                let scrollBy = coordY / framesCount;
+                // запускаем интервал, в котором
+                let scroller = setInterval(function() {
+                // считаем на сколько скроллить за 1 такт
+                    let scrollBy = coordY / framesCount;
 
-                // если к-во пикселей для скролла за 1 такт больше расстояния до элемента
-                // и дно страницы не достигнуто
-                if(scrollBy > window.pageYOffset - coordY && window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
-                // то скроллим на к-во пикселей, которое соответствует одному такту
-                    window.scrollBy(0, scrollBy);
-                } else {
-                // иначе добираемся до элемента и выходим из интервала
-                    window.scrollTo(0, coordY);
-                    clearInterval(scroller);
-                }
-            // время интервала равняется частному от времени анимации и к-ва кадров
-            }, animationTime / framesCount);
-        });
+                    // если к-во пикселей для скролла за 1 такт больше расстояния до элемента
+                    // и дно страницы не достигнуто
+                    if(scrollBy > window.pageYOffset - coordY && window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
+                    // то скроллим на к-во пикселей, которое соответствует одному такту
+                        window.scrollBy(0, scrollBy);
+                    } else {
+                    // иначе добираемся до элемента и выходим из интервала
+                        window.scrollTo(0, coordY);
+                        clearInterval(scroller);
+                    }
+                // время интервала равняется частному от времени анимации и к-ва кадров
+                }, animationTime / framesCount);
+            });
         });
 //  const anchors = document.querySelectorAll('a[href* = "#"]');
         
@@ -218,12 +232,3 @@ window.addEventListener('DOMContentLoaded', function(){
     tabs();
 
 }); 
-
-let date = new Date();
-
-function returnEndDate(d,h,m){
- date.setDate(date.getDate()+d);
- date.setHours(date.getHours()+h);
- date.setMinutes(date.getMinutes()+m);
- return date;
-}
