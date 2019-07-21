@@ -1,35 +1,18 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-#clock{
-    width: 700px;
-    height: 700px;
-    margin: 50px auto;
-    position: relative;
-
-}
-#sec, #min, #hour{
-    display: block;
+div {
+    width: 10px;
+    height: 10px;
+    background: greenyellow;
+    position:absolute;
+    left:10;
+  }
+  
+  button {
+    width: 100px;
+    height: 30px;
     position: absolute;
-    top: 0;
-    left: 250px;
-}
-input{
-    width: 150px;
-    height: 40px;
-}
-#play img, #stop img {
-        max-width: 100px;
-        left: 0;
-}
-#clocks {
-
-    position: absolute;
-    left: 0;
-    margin-left: -120px;
-    margin-top: -150px;
-    opacity: .2;
-
-}
+    top: 40px;
+    left: 20px;
+  }
+  #reset {
+    left: 150px;
+  }
