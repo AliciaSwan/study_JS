@@ -102,43 +102,43 @@ window.addEventListener('DOMContentLoaded', function(){
     // const handlerPopup = () => {
     //     popup.style.display = 'block';
     // };
-    popupBtn.forEach((elem)=> elem.addEventListener('click', () =>{ 
+        popupBtn.forEach((elem)=> elem.addEventListener('click', () =>{ 
 
-        if(screen.width > 480){
-            popup.style.display = 'block'; 
-            let count = 0,
-                popupDown;
+            if(screen.width > 480){
+                popup.style.display = 'block'; 
+                let count = 0,
+                    popupDown;
 
-            let popupAnimate = ()=>{
-                popupDown = requestAnimationFrame(popupAnimate);
-                count++;
-                if(count < 150){
-                    popupContent.style.top = count + 'px';
-                    count +=10;
-                }else{
-                    cancelAnimationFrame(popupAnimate);
-                }
-            };
-        popupDown = requestAnimationFrame(popupAnimate);
-        }else{
-            popup.style.display = 'block';
-        }
-    }));
-
-    popup.addEventListener('click', (event)=>{
-        let target = event.target;
-
-        if(target.classList.contains('popup-close')){
-            popup.style.display ='none';
-        }else{
-            target = target.closest('.popup-content');
-
-            if(!target){
-                popup.style.display = 'none';
+                let popupAnimate = ()=>{
+                    popupDown = requestAnimationFrame(popupAnimate);
+                    count++;
+                    if(count < 150){
+                        popupContent.style.top = count + 'px';
+                        count +=10;
+                    }else{
+                        cancelAnimationFrame(popupAnimate);
+                    }
+                };
+            popupDown = requestAnimationFrame(popupAnimate);
+            }else{
+                popup.style.display = 'block';
             }
-        }
+        }));
 
-    });
+        popup.addEventListener('click', (event)=>{
+            let target = event.target;
+
+            if(target.classList.contains('popup-close')){
+                popup.style.display ='none';
+            }else{
+                target = target.closest('.popup-content');
+
+                if(!target){
+                    popup.style.display = 'none';
+                }
+            }
+
+        });
     };
 
     togglePopUp();
@@ -146,8 +146,10 @@ window.addEventListener('DOMContentLoaded', function(){
     // scroll
     const scroll = () => {
         // собираем все якоря; устанавливаем время анимации и количество кадров
-        const anchors = [].slice.call(document.querySelectorAll('a[href*="#"]')),
+        const //anchors = [].slice.call(document.querySelectorAll('a[href*="#"]')),
+        anchors = document.anchors(),
             animationTime = 300,
+        
             framesCount = 20;
             
         anchors.forEach(function(item) {
@@ -230,5 +232,106 @@ window.addEventListener('DOMContentLoaded', function(){
         });
     };
     tabs();
+
+    const addDots = () => {
+        const slide = document.querySelectorAll('.portfolio-item'),
+            dots = document.querySelector('.portfolio-dots');
+
+        slide.forEach(() => {
+            let newDot = document.createElement('li');
+            newDot.className = "dot";
+            dots.appendChild(newDot);
+        });
+    };
+    addDots();
+
+    const slider = () => {
+        const slide = document.querySelectorAll('.portfolio-item'),
+           // btn = document.querySelectorAll('.portfolio-btn'),
+            dot = document.querySelectorAll('.dot'),
+            slider = document.querySelector('.portfolio-content');
+            
+
+        let currentSlide = 0,
+            interval;
+
+       
+        const prevSlide = (elem, index, strClass) =>{
+            elem[index].classList.remove(strClass);
+        };
+        const nextSlide = (elem, index, strClass) =>{
+            elem[index].classList.add(strClass);
+        };
+
+        const autoPlaySlide = () => {
+            prevSlide(slide, currentSlide, 'portfolio-item-active');
+            prevSlide(dot, currentSlide, 'dot-active');
+            currentSlide++;
+            if(currentSlide >= slide.length){
+                currentSlide = 0;
+            }
+            nextSlide(slide, currentSlide, 'portfolio-item-active');
+            nextSlide(dot, currentSlide, 'dot-active');
+        };
+        const startSlide = (time = 3000) => {
+            interval = setInterval(autoPlaySlide, time);
+
+        };
+        const stopSlide = () => {
+             clearInterval(interval);
+        };
+
+        slider.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            let target = event.target;
+
+            if(!target.matches('.portfolio-btn, .dot')){
+                return;
+            }
+            prevSlide(slide, currentSlide, 'portfolio-item-active');
+            prevSlide(dot, currentSlide, 'dot-active');
+
+            if(target.matches('#arrow-right')){
+                currentSlide++;
+            }else if(target.matches('#arrow-left')){
+                currentSlide--;
+            } else if(target.matches('.dot')){
+                dot.forEach((elem, index) => {
+                    if(elem === target){
+                        currentSlide = index;
+                    }
+                });
+            }
+
+            if(currentSlide >= slide.length){
+                currentSlide = 0;
+            }
+            if(currentSlide < 0){
+                currentSlide = slide.length-1;
+            }
+            nextSlide(slide, currentSlide, 'portfolio-item-active');
+            nextSlide(dot, currentSlide, 'dot-active');
+
+        });
+
+        slider.addEventListener('mouseover', (event)=>{
+            if(event.target.matches('.portfolio-btn') ||
+            event.target.matches('.dot')){
+                stopSlide();
+            }
+        });
+        slider.addEventListener('mouseout', (event)=>{
+            if(event.target.matches('.portfolio-btn') ||
+            event.target.matches('.dot')){
+                startSlide();
+            }
+        });
+        
+        startSlide(1500);
+        
+
+    };
+    slider();
 
 }); 
