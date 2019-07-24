@@ -64,7 +64,6 @@ window.addEventListener('DOMContentLoaded', function(){
     }, 1000, 'deadline');
 
     //  menu
-
     const toggleMenu = ()=>{
         const menu = document.querySelector('menu'),
               menuBtn = document.querySelector('.menu'),
@@ -93,7 +92,6 @@ window.addEventListener('DOMContentLoaded', function(){
     toggleMenu();
 
     //  Pop-up
-
     const togglePopUp = ()=>{
         const popup = document.querySelector('.popup'),
         popupBtn = document.querySelectorAll('.popup-btn'),
@@ -146,8 +144,8 @@ window.addEventListener('DOMContentLoaded', function(){
     // scroll
     const scroll = () => {
         // собираем все якоря; устанавливаем время анимации и количество кадров
-        const //anchors = [].slice.call(document.querySelectorAll('a[href*="#"]')),
-        anchors = document.anchors(),
+        const anchors = [].slice.call(document.querySelectorAll('a[href*="#"]')),
+        //anchors = document.anchors(),
             animationTime = 300,
         
             framesCount = 20;
@@ -196,10 +194,9 @@ window.addEventListener('DOMContentLoaded', function(){
 //         });
 //         }
     };
-//     scroll();
+    scroll();
 
     // Tabs
-
     const tabs = () => {
         const tabHeader = document.querySelector('.service-header'),
             tab = tabHeader.querySelectorAll('.service-header-tab'),
@@ -245,6 +242,7 @@ window.addEventListener('DOMContentLoaded', function(){
     };
     addDots();
 
+    //  slider
     const slider = () => {
         const slide = document.querySelectorAll('.portfolio-item'),
            // btn = document.querySelectorAll('.portfolio-btn'),
@@ -333,5 +331,21 @@ window.addEventListener('DOMContentLoaded', function(){
 
     };
     slider();
+
+    const img = document.querySelectorAll('.command__photo');
+    img.forEach((elem) => { 
+        elem.addEventListener('mouseenter', (e) => {
+            e.target.src = e.target.dataset.img;
+        });
+    });
+
+    // calculator 
+    const inputNumber = document.querySelectorAll('.calc-item');
+
+	inputNumber.forEach((item) => {
+		item.addEventListener('input', () => {
+			item.value = item.value.replace(/\D/g, '');
+		});
+	});
 
 }); 
