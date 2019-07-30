@@ -178,21 +178,6 @@ window.addEventListener('DOMContentLoaded', function(){
                 }, animationTime / framesCount);
             });
         });
-//  const anchors = document.querySelectorAll('a[href* = "#"]');
-        
-//     for (let anchor of anchors) {
-//         console.log(anchor);
-//         anchor.addEventListener('click', (e)=> {
-//             e.preventDefault();
-            
-//             const blockID = anchor.getAttribute('href');
-            
-//             document.querySelector('' + blockID).scrollIntoView({
-//             behavior: 'smooth',
-//             block: 'start'
-//             });
-//         });
-//         }
     };
     scroll();
 
@@ -397,14 +382,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
         calcBlock.addEventListener('change', (event) => {
             const target = event.target;
-            // if(target.matches('.calc-type') || target.matches('.calc-square') ||
-            // target.matches('.calc-day') || target.matches('.calc-count')){
-            //     console.log(1);
-            // }
-            // if(target === calcDay || target === calcSquare || 
-            //     target === calcType || target === calcCount){
-            //         console.log(1);  
-            //     }
+
             if(target.matches('select') || target.matches('input')){
                 countSum(price); 
             }
@@ -458,36 +436,14 @@ window.addEventListener('DOMContentLoaded', function(){
                     spinner.forEach((item)=> {
                         item.style.display = "block";
                     });
-                    //statusMessage.textContent = loadMessage;
-                    const formData = new FormData(item);
-    
-                    let body ={};
-    
-                    // for(let val of formData.entries()){
-                    //     body.val[0] = val[1]
-                    // }
-                    formData.forEach((val, key) => {
-                        body[key] = val;
-                    });
-
-                    // postData(body, () => {
-                    //     spinner.forEach((item)=> {
-                    //         item.style.display = "none";
-                    //     });
-                    //     statusMessage.textContent = successMessage;
-                    //     item.reset();
-
-                    // }, (error) => {
-                    //     spinner.forEach((item)=> {
-                    //         item.style.display = "none";
-                    //     });
-                    //     statusMessage.textContent = errorMessage;
-                    //     console.error(error);
-                    // });
+                    const formData = new FormData(item);  
 
                     // c промисами 
-                    postData(body)
-                        .then(() => {
+                    postData(formData)
+                        .then((response) => {
+                            if(response.status !== 200){
+                                throw new Error('status network not 200');
+                            }
                             spinner.forEach((item)=> {
                                 item.style.display = "none";
                             });
@@ -506,29 +462,14 @@ window.addEventListener('DOMContentLoaded', function(){
                 });
             });
 
-            const postData = (body) => {
-                return new Promise((resolve, reject) => {
-                    const request = new XMLHttpRequest();
-                    request.addEventListener('readystatechange', ()=>{
-                        
-                        if(request.readyState !== 4){
-                            return;
-                        }
-                        if(request.status === 200){
-                            //outputData();
-                            resolve();
-                        } else {
-                            reject(request.status);   
-                        }
-                    });
-
-                    request.open('POST', './server.php');
-                    // request.setRequestHeader('Content-Type', 'multipart/form-data');
-                    request.setRequestHeader('Content-Type', 'application/json');
-                    
-                    // request.send(formData);
-                    request.send(JSON.stringify(body));
-                });
+            const postData = (formData) => {
+                return fetch('./server.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: formData //JSON.stringify(body)
+                 });
                 
             };
     };
