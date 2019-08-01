@@ -438,8 +438,14 @@ window.addEventListener('DOMContentLoaded', function(){
                     });
                     const formData = new FormData(item);  
 
+                    let body = {};
+
+                    formData.forEach((val, key) => {
+                        body[key] = val;
+                    });
+
                     // c промисами 
-                    postData(formData)
+                    postData(body)
                         .then((response) => {
                             if(response.status !== 200){
                                 throw new Error('status network not 200');
@@ -462,13 +468,13 @@ window.addEventListener('DOMContentLoaded', function(){
                 });
             });
 
-            const postData = (formData) => {
+            const postData = (body) => {
                 return fetch('./server.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: formData //JSON.stringify(body)
+                    body: JSON.stringify(body) //formData 
                  });
                 
             };
