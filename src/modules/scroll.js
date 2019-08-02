@@ -1,6 +1,6 @@
 const scroll = () => {
     // собираем все якоря; устанавливаем время анимации и количество кадров
-    const anchors = [].slice.call(document.querySelectorAll('a[href*="#"]')),
+    const anchors = [].slice.call(document.querySelectorAll('menu ul li a')),
     //anchors = document.anchors(),
         animationTime = 300,
     

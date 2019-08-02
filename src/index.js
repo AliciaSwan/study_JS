@@ -1,5 +1,10 @@
 'use strict';
 
+import 'nodelist-foreach-polyfill';
+import 'fetch-polyfill';
+import 'es6-promise';
+import 'formdata-polyfill';
+
 import countTimer from './modules/countTimer';
 import addDots from './modules/addDots';
 import calc from './modules/calc';

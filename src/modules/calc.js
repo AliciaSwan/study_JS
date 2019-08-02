@@ -37,7 +37,7 @@ const calc = (price = 100) => {
                 totalValue.textContent = number;
             } else{
                 clearInterval(interval);
-                totalValue.textContent = total;
+                totalValue.textContent = Math.floor(total);
             }
         };
         interval = setInterval (runNumber, 1);

@@ -12,14 +12,13 @@ const sendForm = () => {
        // statusMessage.textContent = 'Тут будет сообщение';
         statusMessage.style.cssText = 'font-size: 2rem; color:white;';
         //
-        form.forEach((item) => {
+        form.forEach((item, index) => {
             item.addEventListener('submit', (e) => {
                 e.preventDefault();
                 item.appendChild(statusMessage);
 
-                spinner.forEach((item)=> {
-                    item.style.display = "block";
-                });
+                spinner[index].style.display = "block";
+                
                 const formData = new FormData(item);  
 
                 let body = {};
