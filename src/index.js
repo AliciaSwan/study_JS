@@ -1,13 +1,15 @@
 'use strict';
 
-import 'fetch-polyfill';
-import "isomorphic-fetch";
-import 'es6-promise';
-import 'cross-fetch/polyfill';
+// import 'fetch-polyfill';
+// import "isomorphic-fetch";
+// import 'es6-promise';
+// import 'cross-fetch/polyfill';
 import '@babel/polyfill';
 import 'nodelist-foreach-polyfill';
 import elementClosest from 'element-closest';
 import 'whatwg-fetch';
+
+
 elementClosest(window);
 require ('formdata-polyfill');
 
