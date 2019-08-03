@@ -1,9 +1,15 @@
 'use strict';
 
-import 'nodelist-foreach-polyfill';
 import 'fetch-polyfill';
+import "isomorphic-fetch";
 import 'es6-promise';
-import 'formdata-polyfill';
+import 'cross-fetch/polyfill';
+import '@babel/polyfill';
+import 'nodelist-foreach-polyfill';
+import elementClosest from 'element-closest';
+import 'whatwg-fetch';
+elementClosest(window);
+require ('formdata-polyfill');
 
 import countTimer from './modules/countTimer';
 import addDots from './modules/addDots';

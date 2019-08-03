@@ -28,9 +28,14 @@
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "cross-fetch": "^3.0.4",
+    "element-closest": "^3.0.1",
     "es6-promise": "^4.2.8",
     "fetch-polyfill": "^0.8.2",
     "formdata-polyfill": "^3.0.18",
-    "nodelist-foreach-polyfill": "^1.2.0"
+    "isomorphic-fetch": "^2.2.1",
+    "nodelist-foreach-polyfill": "^1.2.0",
+    "whatwg-fetch": "^3.0.0"
   }
 }
