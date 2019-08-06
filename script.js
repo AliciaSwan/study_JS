@@ -51,53 +51,36 @@ document.addEventListener('DOMContentLoaded', () => {
             
         })
         .then((data) => {
-            const getCategory = (data) => {
-                console.log(data);
-                const buttons = document.querySelectorAll('button'),
-                    italy = document.getElementById('italy');
-                buttons.forEach((item) => {
-                    item.addEventListener('click', (e)=> {
-                        const target = e.target;
-                        console.log(target);
-                        if (target === italy){
-                            data.cars.forEach((item) => {
-                                if(item.search('italian')){
-                                    return item;
-                                }
-                                let italyData = item.search('italian');
-                                console.log(italyData);
-                                return italy;
-                            });
-                        
-
+            const filterCountry = (data) => {
+                const toggle = document.querySelector('[name="category"]'), 
+                    allCards = [];  
+                
+                toggle.addEventListener('change', function() { 
+                    let chosenCategory = this[this.selectedIndex].value;
+                    let cards = document.querySelectorAll('.card');
+                
+                    allCards.forEach.call(cards, (item) => {   // или можно написать Array.prototype.forEach.call(cards, (item) => {
+                        let child = item.children[0];
+                        let childCategory = child.className.split(' ');
+                
+                        if (childCategory.indexOf(chosenCategory) === -1) {
+                            item.style.display='none';
+                        } else {
+                            item.style.display='block';
+                        }
+                        if(chosenCategory === 'all') {
+                
+                            item.style.display = 'block';
+                
                         }
                     });
                 });
 
 
             };
-            getCategory(data);
-        })
+            filterCountry(data);
+        });
     };
     getCars();
 
-});
-
-
-const toggle = document.querySelector('[name="category"]');
-
-toggle.addEventListener('change', function() { 
-    let chosenCategory = this[this.selectedIndex].value;
-    let cards = document.querySelectorAll('.card');
-
-    Array.prototype.forEach.call(cards, (item) => {
-        let child = item.children[0];
-        let childCategory = child.className.split(' ');
-
-        if (childCategory.indexOf(chosenCategory) === -1) {
-            item.style.display='none';
-        } else {
-            item.style.display='block';
-        }
-    });
 });
